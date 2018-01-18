@@ -1,7 +1,7 @@
 import numpy as np
 import cv2, time
 
-def bilatfilt(I,w,sd,sr):
+def bilatfilt(I,w=5,sd=1,sr=1):
 	dim = I.shape
 	Iout= np.zeros(dim)
 	#If the window is 5X5 then w = 5	
@@ -18,12 +18,12 @@ def bilatfilt(I,w,sd,sr):
 			k = np.multiply(c,s)
 			Iout[r-wlim,c-wlim] = np.sum(np.multiply(k,Ix))/np.sum(k)
 	return np.uint8(Iout)
- 
-#def canny(img,)
-
 
 img = cv2.imread('test.jpg')
 gimg = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-cv2.imshow('oimg',gimg)
-cv2.imshow('image',bilatfilt(gimg,5,10,20))
+cv2.imshow('original img',gimg)
+stime = time.time()
+fimg = bilatfilt(gimg,w,sd,sr)
+print 'Time taken :: '+str(time.time()-stime)+' seconds...'
+cv2.imshow('filtered image',fimg)
 cv2.waitKey(0)
